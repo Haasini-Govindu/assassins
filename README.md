@@ -16,3 +16,10 @@ def getApiKey():
 def getCustomerId():
 	return customerId
 ```
+
+# Dependencies
+**requests**
+On a command line, type in:
+```bash
+pip install requests
+```
