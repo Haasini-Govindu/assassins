@@ -51,6 +51,7 @@ class Game:
 	def __init__(self, buyIn):
 		self.players = []
 		self.buyIn = buyIn
+		self.acc = MasterAccount(self.buyIn)
 
 	def addPlayer(self, p):
 		self.players.append(p)
@@ -59,8 +60,10 @@ class Game:
 # 		print self.players[idx].getTarget().getName() + ' has been slain by ' + self.players[idx].getName() + '!'
 # 		print '% has been slain by %!' %(victim.getName(), assassin.getName())
 		self.players[idx].getTarget().setStatus('Slain by ' + self.players[idx].getName())
+		victim = self.players[idx].getTarget()
 		self.players[idx].target = self.players[idx].getTarget().target
-		self.players[idx].target = None
+		victim.target = None
+		self.acc.transfer(victim.get_id(), self.players[idx])
 		
 	def findPlayer(self, number):
 		n = 0
@@ -85,17 +88,17 @@ class Game:
 		print '----------'		
 
 	def startGame(self):
-		acc = MasterAccount()
+# 		acc = MasterAccount(self.buyIn)
 		shuffle(self.players)
 
 		for n in range(0, len(self.players)-1):
 			self.players[n].setSecretCode(generateCode(6))
-			self.players[n].set_id(acc.createAccount(self.players[n].getName()))
+			self.players[n].set_id(self.acc.createAccount(self.players[n].getName()))
 			self.players[n].setTarget(self.players[n+1])
 # 			print str(self.players[n].getName()) + ' is targeting ' + str(self.players[n].getTarget())
 		
 		self.players[len(self.players)-1].setSecretCode(generateCode(6))
-		self.players[len(self.players)-1].set_id(acc.createAccount(self.players[len(self.players)-1].getName()))
+		self.players[len(self.players)-1].set_id(self.acc.createAccount(self.players[len(self.players)-1].getName()))
 		self.players[len(self.players)-1].setTarget(self.players[0])
 # 		print str(self.players[len(self.players)-1].getName()) + ' is targeting ' + str(self.players[len(self.players)-1].getTarget())
 	
