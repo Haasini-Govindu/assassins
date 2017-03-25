@@ -1,7 +1,7 @@
 # targets.py
 # Python Script for handling the game data
 
-from random import shuffle
+from random import shuffle, randint
 
 class Player:
 	def __init__(self, name, number):
@@ -48,9 +48,17 @@ def printGameStatus():
 		print p
 	print '----------'
 
+def generateCode(n):
+	string = ''
+	for i in range(0, n):
+		r = randint(0, 9)
+		string += str(r)
+	return string
+
 shuffle(players)
 
 for n in range(0, len(players)-1):
+	players[n].setSecretCode(generateCode(6))
 	players[n].target = players[n+1]
 	print str(players[n].getName()) + ' is targeting ' + str(players[n].target.getName())
 
