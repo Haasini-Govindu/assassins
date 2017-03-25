@@ -1,22 +1,20 @@
 from twilio.rest import TwilioRestClient
 import twilio_auth
 
-print(twilio_auth.getSid())
-print(twilio_auth.getAuthToken)
 client = TwilioRestClient(twilio_auth.getSid(), twilio_auth.getAuthToken())
 
-def killed(to):
-	money = get_balance(to);
-	message = client.messages.create(body='you were killed. you final balance was $' + str(money),
-									 to=to,
-									 from_=twilio_auth.getNumber())
+def killed(player):
+	body = 'you were killed. you final balance was $' + str(10)
+	message = client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
 
-	print(message.sid)
-	
+def start(player):
+	body = 'the game begins!'
+	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
+	body = 'your target is ' + player.target.getName()
+	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
+	body = 'your secret code is ' + player.secretCode
+	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
 
-
-# placeholder functions
-def get_balance(to):
-	return 10
-
-killed('+17652336222')
+def gameover(player, winner):
+	body = winner.getName() + ' has won the game!'
+	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
