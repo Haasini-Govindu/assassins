@@ -25,7 +25,7 @@ class Player:
 		return "%s" %(self.name)
 	
 	def getTarget(self):
-		return self.target
+		return "%s" %(self.target)
 		
 def assassinate(assassin, victim):
 	print str(victim.getName()) + ' has been slain by ' + str(assassin.getName()) + '!'
@@ -59,13 +59,13 @@ shuffle(players)
 
 for n in range(0, len(players)-1):
 	players[n].setSecretCode(generateCode(6))
-	players[n].target = players[n+1]
-	print str(players[n].getName()) + ' is targeting ' + str(players[n].target.getName())
+	players[n].setTarget(players[n+1])
+	print str(players[n].getName()) + ' is targeting ' + str(players[n].getTarget())
 
-players[len(players)-1].target = players[0]
-print str(players[len(players)-1].getName()) + ' is targeting ' + str(players[0].target.getName())
+players[len(players)-1].setTarget(players[0])
+print str(players[len(players)-1].getName()) + ' is targeting ' + str(players[len(players)-1].getTarget())
 	
-assassinate(players[2], players[2].target)
-assassinate(players[4], players[4].target)
+assassinate(players[2], players[2].getTarget())
+assassinate(players[4], players[4].getTarget())
 		
 printGameStatus()
