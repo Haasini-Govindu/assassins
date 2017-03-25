@@ -9,23 +9,14 @@ apiKey = nessie_auth.getApiKey()
 customerId = nessie_auth.getCustomerId()
 url = 'http://api.reimaginebanking.com/accounts?key={}'.format(apiKey)
 
-#'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(customerId, apiKey)
-
-# payload = {
-# 	"type": "Checking",
-# 	"nickname": assassin['Name'],
-# 	"rewards": 0,
-# 	"balance": 5,	
-# }
-
 response = requests.get(url, )
 
 if response.status_code == 200:
-	print('Retrieved All Accounts')
 	data = response.json()
+	print('Retrieved All Accounts')
+	
 	accountIDs = []
 	for account in data:
-# 		accountIDs.append(account['_id'])
 		delUrl = 'http://api.reimaginebanking.com/accounts/{}?key={}'.format(account['_id'], apiKey)
 		delResponse = requests.delete(delUrl,)
 		if delResponse.status_code == 204:
