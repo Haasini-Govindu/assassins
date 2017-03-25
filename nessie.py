@@ -23,7 +23,7 @@ class MasterAccount:
 
 		# Create a Checking Account
 		response = requests.post( 
-			gm.url, 
+			self.url, 
 			data=json.dumps(payload),
 			headers={'content-type':'application/json'},
 			)
@@ -31,7 +31,7 @@ class MasterAccount:
 		if response.status_code == 201:
 			print('Account Created')
 			data = response.json()
-			return data['_id']
+			return data['objectCreated']['_id']
 		else:
 			print('Error Status Code: ' + str(response.status_code))	
 	
