@@ -32,17 +32,20 @@ class Player:
 	def set_id(self, _id):
 		self._id = _id
 		
+	def setStatus(self, newStatus):
+		self.status = newStatus
+		
 	def getName(self):
 		return "%s" %(self.name)
 	
 	def getTarget(self):
-		return "%s" %(self.target)
+		return self.target
 
 	def get_id(self):
 		return self._id
 		
 	def getNumber(self):
-		return self.number
+		return "%s" %self.number
 
 class Game:
 	def __init__(self):
@@ -51,16 +54,19 @@ class Game:
 	def addPlayer(self, p):
 		self.players.append(p)
 
-	def assassinate(self, assassin, victim):
-		print str(victim.getName()) + ' has been slain by ' + str(assassin.getName()) + '!'
-		victim.status = 'Slain by ' + str(assassin.getName())
-		assassin.target = victim.target
-		victim.target = None
+	def assassinate(self, idx):
+# 		print self.players[idx].getTarget().getName() + ' has been slain by ' + self.players[idx].getName() + '!'
+# 		print '% has been slain by %!' %(victim.getName(), assassin.getName())
+		self.players[idx].getTarget().setStatus('Slain by ' + self.players[idx].getName())
+		self.players[idx].target = self.players[idx].getTarget().target
+		self.players[idx].target = None
 		
 	def findPlayer(self, number):
+		n = 0
 		for p in self.players:
-			if (p.getNumber == number):
-				return p
+			if (str(p.getNumber()) == str(number)):
+				return n
+			n += 1
 		
 # player1 = Player('Ahri', '+18002221222')
 # player2 = Player('Katarina', '+18002221222')
@@ -93,15 +99,17 @@ class Game:
 # 		print str(self.players[len(self.players)-1].getName()) + ' is targeting ' + str(self.players[len(self.players)-1].getTarget())
 	
 g = Game()
-g.addPlayer(Player('Ahri', '+18002221222'))
+g.addPlayer(Player('Ahri', '+18001111111'))
 g.addPlayer(Player('Katarina', '+18002221222'))
-g.addPlayer(Player('Kha\'zix', '+18002221222'))
-g.addPlayer(Player('Rengar', '+18002221222'))
-g.addPlayer(Player('Talon', '+18002221222'))
-g.addPlayer(Player('Zed', '+18002221222'))
+g.addPlayer(Player('Kha\'zix', '+18003333333'))
+g.addPlayer(Player('Rengar', '+18004444444'))
+g.addPlayer(Player('Talon', '+18005555555'))
+g.addPlayer(Player('Zed', '+18006666666'))
 g.printGameStatus()
 g.startGame()
 
-# assassinate(players[2], players[2].getTarget())
+idx = g.findPlayer('+18002221222')
+
+g.assassinate(idx)
 # assassinate(players[4], players[4].getTarget())
-# printGameStatus()
+g.printGameStatus()
