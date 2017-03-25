@@ -1,2 +1,5 @@
 nessie_auth.py
+
+# compiled files
 __pycache__/
+*.pyc
