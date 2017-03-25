@@ -15,7 +15,6 @@ class GameMaster:
 	
 gm = GameMaster()
 
-# url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(gm.customerId, gm.apiKey)
 payload = {
   "type": "Checking",
   "nickname": "test url change",
@@ -23,7 +22,7 @@ payload = {
   "balance": 1090,	
 }
 
-# Create a Savings Account
+# Create a Checking Account
 response = requests.post( 
 	gm.url, 
 	data=json.dumps(payload),
