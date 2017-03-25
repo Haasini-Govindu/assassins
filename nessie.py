@@ -13,10 +13,10 @@ class MasterAccount:
 		self.customerId = nessie_auth.getCustomerId()
 		self.url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(self.customerId, self.apiKey)
 	
-	def createAccount(self):
+	def createAccount(self, name):
 		payload = {
 			"type": "Checking",
-			"nickname": assassin['Name'],
+			"nickname": name,
 			"rewards": 0,
 			"balance": 5,	
 		}
@@ -29,7 +29,9 @@ class MasterAccount:
 			)
 
 		if response.status_code == 201:
-			print('account created')
+			print('Account Created')
+			data = response.json()
+			return data['_id']
 		else:
 			print('Error Status Code: ' + str(response.status_code))	
 	
