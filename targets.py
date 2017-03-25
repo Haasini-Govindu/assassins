@@ -11,6 +11,80 @@ def generateCode(n):
 		string += str(r)
 	return string
 
+import outgoing
+
+class Game:
+	def __init__(self, buyIn):
+		self.players = []
+		self.buyIn = buyIn
+		self.acc = MasterAccount(self.buyIn)
+		self.started = False
+
+	# convert to strings before comparison?
+	def findPlayer(self, number):
+		ll = filter(lambda player: player.number == number, self.players)
+		if(len(ll) == 1):
+			return ll[0]
+		return None
+	
+	def addPlayer(self, player):
+		self.players.append(player)
+	
+	def printStatus(self):
+		print '----------'
+		for p in self.players:
+			print str(p) + ' ' + str(self.acc.getBalance(p.get_id()))
+		print '----------'
+	
+	def start(self):
+		shuffle(self.players)
+		for n in range(0, len(self.players)):
+			self.players[n].setSecretCode(generateCode(6))
+			self.players[n].set_id(self.acc.createAccount(self.players[n].getName()))
+			self.players[n].setTarget(self.players[(n + 1) % len(self.players)])
+			print str(self.players[n].getName()) + ' is targeting ' + str(self.players[n].getTarget())
+			outgoing.start(self.players[n])
+	
+	def leaderboard(self):
+		ret = ''
+		for player in self.players:
+			ret += str(player) + ': $' + str(self.acc.getBalance(player.get_id())) + '\n'
+		return ret
+	
+	def assassinationAttempt(self, assassin, code):
+		if(not(assassin.getTarget()) or assassin.getTarget().secretCode != code):
+			return False
+		self.assassinate(assassin)
+		return True
+
+	# unused in christopher's code
+# 	def assassinate_by_index(self, idx):
+# # 		print self.players[idx].getTarget().getName() + ' has been slain by ' + self.players[idx].getName() + '!'
+# # 		print '% has been slain by %!' %(victim.getName(), assassin.getName())
+# 		self.players[idx].getTarget().setStatus('Slain by ' + self.players[idx].getName())
+# 		victim = self.players[idx].getTarget()
+# 		self.players[idx].target = self.players[idx].getTarget().target
+# 		victim.target = None
+# 		self.acc.transfer(victim.get_id(), self.players[idx])
+
+	
+	def assassinate(self, assassin):
+		victim = assassin.getTarget()
+		print str(victim.getName()) + ' has been slain by ' + str(assassin.getName()) + '!'
+		victim.setStatus('Slain by ' + assassin.getName())
+		victim.target = None
+		self.acc.transfer(victim.get_id(), assassin)
+		outgoing.killed(victim, self.acc.getBalance(victim.get_id()))
+		if(len(filter(lambda player: player.status == 'Alive', self.players)) == 1):
+			money = self.acc.getBalance(assassin.get_id())
+			for player in self.players:
+				outgoing.gameover(player, assassin, money)
+			assassin.target = None
+			# end game
+		else:
+			assassin.target = victim.target
+	
+
 class Player:
 	def __init__(self, name, number):
 		self.name = name
@@ -47,80 +121,25 @@ class Player:
 	def getNumber(self):
 		return "%s" %self.number
 
-class Game:
-	def __init__(self, buyIn):
-		self.players = []
-		self.buyIn = buyIn
-		self.acc = MasterAccount(self.buyIn)
+# g = Game(5)
+# g.addPlayer(Player('Ahri', '+18001111111'))
+# g.addPlayer(Player('Katarina', '+18002221222'))
+# g.addPlayer(Player('Kha\'zix', '+18003333333'))
+# g.addPlayer(Player('Rengar', '+18004444444'))
+# g.addPlayer(Player('Talon', '+18005555555'))
+# g.addPlayer(Player('Zed', '+18006666666'))
+# # g.printGameStatus()
+# g.startGame()
 
-	def addPlayer(self, p):
-		self.players.append(p)
+# idx = g.findPlayer('+18002221222')
 
-	def assassinate(self, idx):
-# 		print self.players[idx].getTarget().getName() + ' has been slain by ' + self.players[idx].getName() + '!'
-# 		print '% has been slain by %!' %(victim.getName(), assassin.getName())
-		self.players[idx].getTarget().setStatus('Slain by ' + self.players[idx].getName())
-		victim = self.players[idx].getTarget()
-		self.players[idx].target = self.players[idx].getTarget().target
-		victim.target = None
-		self.acc.transfer(victim.get_id(), self.players[idx])
-		
-	def findPlayer(self, number):
-		n = 0
-		for p in self.players:
-			if (str(p.getNumber()) == str(number)):
-				return n
-			n += 1
-		
-# player1 = Player('Ahri', '+18002221222')
-# player2 = Player('Katarina', '+18002221222')
-# player3 = Player('Kha\'zix', '+18002221222')
-# player4 = Player('Rengar', '+18002221222')
-# player5 = Player('Talon', '+18002221222')
-# player6 = Player('Zed', '+18002221222')
-# 
-# players = [player1, player2, player3, player4, player5, player6]
-
-	def printGameStatus(self):
-		print '----------'
-		for p in self.players:
-			print str(p) + ' ' + str(self.acc.getBalance(p.get_id()))
-		print '----------'		
-
-	# def printBalances(self):
-# 		print '----------'
-# 		for p in self.players:
-# 			print self.acc.getBalance(p.get_id())
-# 		print '----------'		
-
-	def startGame(self):
-# 		acc = MasterAccount(self.buyIn)
-		shuffle(self.players)
-
-		for n in range(0, len(self.players)-1):
-			self.players[n].setSecretCode(generateCode(6))
-			self.players[n].set_id(self.acc.createAccount(self.players[n].getName()))
-			self.players[n].setTarget(self.players[n+1])
-# 			print str(self.players[n].getName()) + ' is targeting ' + str(self.players[n].getTarget())
-		
-		self.players[len(self.players)-1].setSecretCode(generateCode(6))
-		self.players[len(self.players)-1].set_id(self.acc.createAccount(self.players[len(self.players)-1].getName()))
-		self.players[len(self.players)-1].setTarget(self.players[0])
-# 		print str(self.players[len(self.players)-1].getName()) + ' is targeting ' + str(self.players[len(self.players)-1].getTarget())
-	
-g = Game(5)
-g.addPlayer(Player('Ahri', '+18001111111'))
-g.addPlayer(Player('Katarina', '+18002221222'))
-g.addPlayer(Player('Kha\'zix', '+18003333333'))
-g.addPlayer(Player('Rengar', '+18004444444'))
-g.addPlayer(Player('Talon', '+18005555555'))
-g.addPlayer(Player('Zed', '+18006666666'))
+# g.assassinate(idx)
+# # assassinate(players[4], players[4].getTarget())
 # g.printGameStatus()
-g.startGame()
+# g.printBalances()
 
-idx = g.findPlayer('+18002221222')
+def go():
+	assassinate(players[2], players[2].getTarget())
+	assassinate(players[4], players[4].getTarget())
 
-g.assassinate(idx)
-# assassinate(players[4], players[4].getTarget())
-g.printGameStatus()
-g.printBalances()
+	printGameStatus()

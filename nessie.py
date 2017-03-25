@@ -66,7 +66,7 @@ class MasterAccount:
 		if response.status_code == 200:
 			print('Successfully obtained account balance')
 			data = response.json()
-			bal = int(data['balance'])
+			bal = float(data['balance'])
 			return bal
 # 			print data
 # 			return 5
