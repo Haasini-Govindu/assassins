@@ -8,7 +8,8 @@ class Player:
 		self.name = name
 		self.number = number # refers to phone number
 		self.status = 'Alive'
-		self.target = None		
+		self.target = None
+		self.secretCode = None	
 		
 	def __str__(self):
 		return "%s - %s" %(self.name, self.status)
@@ -16,6 +17,9 @@ class Player:
 		
 	def setTarget(self, target):
 		self.target = target
+		
+	def setSecretCode(self, secretCode):
+		self.secretCode = secretCode
 		
 	def getName(self):
 		return "%s" %(self.name)
@@ -48,10 +52,10 @@ shuffle(players)
 
 for n in range(0, len(players)-1):
 	players[n].target = players[n+1]
-players[len(players)-1].target = players[0]
-
-for n in range(0, len(players)):
 	print str(players[n].getName()) + ' is targeting ' + str(players[n].target.getName())
+
+players[len(players)-1].target = players[0]
+print str(players[len(players)-1].getName()) + ' is targeting ' + str(players[0].target.getName())
 	
 assassinate(players[2], players[2].target)
 assassinate(players[4], players[4].target)
