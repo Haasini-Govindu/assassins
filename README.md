@@ -23,3 +23,10 @@ On a command line, type in:
 ```bash
 pip install requests
 ```
+
+# Running flask server
+```bash
+export FLASK_APP=sms.py
+export FLASK_DEBUG=1
+flask run
+```
