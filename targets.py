@@ -67,16 +67,15 @@ class Game:
 		for i in range(0, n):
 			r = randint(0, 9)
 			string += str(r)
-		return string
-
-	def generateAccounts(self):
-		acc = MasterAccount()
+		return string		
 
 	def startGame(self):
+		acc = MasterAccount()
 		shuffle(self.players)
 
 		for n in range(0, len(self.players)-1):
 			self.players[n].setSecretCode(generateCode(6))
+			self.players[n].set_id(acc.createAccount(self.players[n].getName()))
 			self.players[n].setTarget(self.players[n+1])
 			print str(self.players[n].getName()) + ' is targeting ' + str(self.players[n].getTarget())
 		
@@ -85,6 +84,15 @@ class Game:
 		print str(self.players[len(self.players)-1].getName()) + ' is targeting ' + str(self.players[len(self.players)-1].getTarget())
 	
 g = Game()
+g.addPlayer(Player('Ahri', '+18002221222'))
+g.addPlayer(Player('Katarina', '+18002221222'))
+g.addPlayer(Player('Kha\'zix', '+18002221222'))
+g.addPlayer(Player('Rengar', '+18002221222'))
+g.addPlayer(Player('Talon', '+18002221222'))
+g.addPlayer(Player('Zed', '+18002221222'))
+
+
+
 # assassinate(players[2], players[2].getTarget())
 # assassinate(players[4], players[4].getTarget())
 # printGameStatus()
