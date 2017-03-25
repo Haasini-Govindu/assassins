@@ -2,6 +2,7 @@
 # Python Script for handling the game data
 
 from random import shuffle, randint
+from nessie import MasterAccount
 
 class Player:
 	def __init__(self, name, number):
@@ -9,7 +10,8 @@ class Player:
 		self.number = number # refers to phone number
 		self.status = 'Alive'
 		self.target = None
-		self.secretCode = None	
+		self.secretCode = None
+		self._id = None
 		
 	def __str__(self):
 		return "%s - %s" %(self.name, self.status)
@@ -20,11 +22,17 @@ class Player:
 	def setSecretCode(self, secretCode):
 		self.secretCode = secretCode
 		
+	def set_id(self, _id):
+		self._id = _id
+		
 	def getName(self):
 		return "%s" %(self.name)
 	
 	def getTarget(self):
 		return "%s" %(self.target)
+
+	def get_id(self):
+		return self._id
 
 class Game:
 	def __init__(self):
@@ -61,6 +69,9 @@ class Game:
 			string += str(r)
 		return string
 
+	def generateAccounts(self):
+		acc = MasterAccount()
+
 	def startGame(self):
 		shuffle(self.players)
 
@@ -68,11 +79,12 @@ class Game:
 			self.players[n].setSecretCode(generateCode(6))
 			self.players[n].setTarget(self.players[n+1])
 			print str(self.players[n].getName()) + ' is targeting ' + str(self.players[n].getTarget())
-
+		
+		self.players[len(self.players)-1].setSecretCode(generateCode(6))
 		self.players[len(self.players)-1].setTarget(self.players[0])
 		print str(self.players[len(self.players)-1].getName()) + ' is targeting ' + str(self.players[len(self.players)-1].getTarget())
 	
-	
+g = Game()
 # assassinate(players[2], players[2].getTarget())
 # assassinate(players[4], players[4].getTarget())
 # printGameStatus()
