@@ -48,13 +48,15 @@ class Game:
 	def assassinate(self, assassin, victim):
 		print str(victim.getName()) + ' has been slain by ' + str(assassin.getName()) + '!'
 		victim.status = 'Slain by ' + str(assassin.getName())
-		assassin.target = victim.target
 		victim.target = None
 		outgoing.killed(victim)
 		if(len(filter(lambda player: player.status == 'Alive', self.players)) == 1):
 			for player in self.players:
 				outgoing.gameover(player, assassin)
+			assassin.target = None
 			# end game
+		else:
+			assassin.target = victim.target
 	
 
 class Player:
