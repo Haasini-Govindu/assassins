@@ -48,8 +48,9 @@ class Player:
 		return "%s" %self.number
 
 class Game:
-	def __init__(self):
+	def __init__(self, buyIn):
 		self.players = []
+		self.buyIn = buyIn
 
 	def addPlayer(self, p):
 		self.players.append(p)
@@ -98,7 +99,7 @@ class Game:
 		self.players[len(self.players)-1].setTarget(self.players[0])
 # 		print str(self.players[len(self.players)-1].getName()) + ' is targeting ' + str(self.players[len(self.players)-1].getTarget())
 	
-g = Game()
+g = Game(5)
 g.addPlayer(Player('Ahri', '+18001111111'))
 g.addPlayer(Player('Katarina', '+18002221222'))
 g.addPlayer(Player('Kha\'zix', '+18003333333'))
