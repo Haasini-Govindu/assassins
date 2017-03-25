@@ -38,6 +38,12 @@ player6 = Player('Zed', '+18002221222')
 
 players = [player1, player2, player3, player4, player5, player6]
 
+def printGameStatus():
+	print '----------'
+	for p in players:
+		print p
+	print '----------'
+
 shuffle(players)
 
 for n in range(0, len(players)-1):
@@ -49,6 +55,5 @@ for n in range(0, len(players)):
 	
 assassinate(players[2], players[2].target)
 assassinate(players[4], players[4].target)
-
-for p in players:
-	print p
+		
+printGameStatus()
