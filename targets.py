@@ -137,9 +137,3 @@ class Player:
 # # assassinate(players[4], players[4].getTarget())
 # g.printGameStatus()
 # g.printBalances()
-
-def go():
-	assassinate(players[2], players[2].getTarget())
-	assassinate(players[4], players[4].getTarget())
-
-	printGameStatus()

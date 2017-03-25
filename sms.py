@@ -76,8 +76,7 @@ def handleStart(sender, response):
 	if(not(sender in players)):
 		response.message('you\'re not in a game yet!')
 		return response
-	game = players[sender]
-	game.start()
+	players[sender].start()
 	response.message('all players have been notified of the game start')
 	return response
 
@@ -123,23 +122,5 @@ def handleLeaderboard(sender, response):
 	if(not(sender in players)):
 		response.message('you\'re not in a game yet!')
 		return response
-	game = players[sender]
-	response.message(game.leaderboard())
+	response.message(players[sender].leaderboard())
 	return response
-
-
-# placeholder functions
-# ingame = False
-
-# def inGame(sender):
-# 	return ingame
-
-# def joinGame(sender, name):
-# 	global ingame
-# 	ingame = True
-
-# def getTarget(sender):
-# 	return 'charlie'
-
-# def kill(sender, code):
-# 	return code == 'yes'
