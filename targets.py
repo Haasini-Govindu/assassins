@@ -11,17 +11,23 @@ class Player:
 		self.target = None		
 		
 	def __str__(self):
-# 		return "%s - %s" %(self.name, self.status)
-		return "%s" %(self.name)
+		return "%s - %s" %(self.name, self.status)
+# 		return "%s" %(self.name)
 		
 	def setTarget(self, target):
 		self.target = target
 		
 	def getName(self):
-		return self.name
+		return "%s" %(self.name)
 	
 	def getTarget(self):
 		return self.target
+		
+def assassinate(assassin, victim):
+	print str(victim.getName()) + ' has been slain by ' + str(assassin.getName()) + '!'
+	victim.status = 'Slain by ' + str(assassin.getName())
+	assassin.target = victim.target
+	victim.target = None
 		
 player1 = Player('Ahri', '+18002221222')
 player2 = Player('Katarina', '+18002221222')
@@ -39,4 +45,10 @@ for n in range(0, len(players)-1):
 players[len(players)-1].target = players[0]
 
 for n in range(0, len(players)):
-	print str(players[n]) + ' is targeting ' + str(players[n].target)
+	print str(players[n].getName()) + ' is targeting ' + str(players[n].target.getName())
+	
+assassinate(players[2], players[2].target)
+assassinate(players[4], players[4].target)
+
+for p in players:
+	print p
