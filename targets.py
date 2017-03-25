@@ -40,6 +40,9 @@ class Player:
 
 	def get_id(self):
 		return self._id
+		
+	def getNumber(self):
+		return self.number
 
 class Game:
 	def __init__(self):
@@ -53,6 +56,11 @@ class Game:
 		victim.status = 'Slain by ' + str(assassin.getName())
 		assassin.target = victim.target
 		victim.target = None
+		
+	def findPlayer(self, number):
+		for p in self.players:
+			if (p.getNumber == number):
+				return p
 		
 # player1 = Player('Ahri', '+18002221222')
 # player2 = Player('Katarina', '+18002221222')
