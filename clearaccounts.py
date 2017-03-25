@@ -23,6 +23,6 @@ if response.status_code == 200:
 			print('Deleted ' + account['nickname'] + '\'s Account')
 		else:
 			print('Error Status Code: ' + str(response.status_code))
-	
+		
 else:
 	print('Error Status Code: ' + str(response.status_code))

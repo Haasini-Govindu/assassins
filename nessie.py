@@ -55,10 +55,23 @@ class MasterAccount:
 		
 		if response.status_code == 201:
 			print('Transfer Complete')
-			data = response.json()
+			print response.json()
 		else:
 			print('Error Status Code: ' + str(response.status_code))
 			
+	def getBalance(self, player):
+		pURL = 'http://api.reimaginebanking.com/accounts/{}?key={}'.format(player, self.apiKey)
+		response = requests.get(pURL)
+		
+		if response.status_code == 200:
+			print('Successfully obtained account balance')
+			data = response.json()
+			bal = int(data['balance'])
+			return bal
+# 			print data
+# 			return 5
+		else:
+			print('Error Status Code: ' + str(response.status_code))
 				
 # participants = [person1, person2, person3, person4, person5, person6]
 # 
