@@ -3,23 +3,32 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+awaiting_response = {}
+
 @app.route("/", methods=['GET', 'POST'])
 def root():
 	print(request.form['Body'])
+	if(request.form['From'] in awaiting_response):
+		return awaiting_response.pop(request.form['From'])(request)
 	if(request.form['Body'].lower() == 'join'):
 		return handle_join(request.form['From'])
 	if(request.form['Body'].lower().split(' ')[0] == 'kill'):
 		return handle_kill(request.form['From'], request.form['Body'].lower())
 	return handle_idk()
 
+def get_name(request):
+	join_game(request.form['From'], request.form['Body'])
+	response = twiml.Response()
+	response.message('you joined the game! we\'ll let you know when it starts')
+	return str(response)
+
 def handle_join(sender):
 	response = twiml.Response()
 	if(in_game(sender)):
 		response.message('you\'re already in a game!')
 		return str(response)
-	join_game(sender)
-	target = get_target(sender)
-	response.message('joined the game! your first target is ' + target)
+	awaiting_response[sender] = get_name
+	response.message('what\'s your name?')
 	return str(response)
 	
 def handle_kill(sender, text):
@@ -47,7 +56,7 @@ game = False
 def in_game(sender):
 	return game
 
-def join_game(sender):
+def join_game(sender, name):
 	global game
 	game = True
 
