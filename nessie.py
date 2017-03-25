@@ -15,22 +15,54 @@ class GameMaster:
 	
 gm = GameMaster()
 
-# url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(gm.customerId, gm.apiKey)
-payload = {
-  "type": "Checking",
-  "nickname": "test url change",
-  "rewards": 3,
-  "balance": 1090,	
+person1 = {
+  "Name": "Ahri",
+  "Phone Number": "+180022212222",	
 }
 
-# Create a Savings Account
-response = requests.post( 
-	gm.url, 
-	data=json.dumps(payload),
-	headers={'content-type':'application/json'},
-	)
+person2 = {
+  "Name": "Katarina",
+  "Phone Number": "+180022212222",	
+}
 
-if response.status_code == 201:
-	print('account created')
-else:
-	print('Status Code: ' + str(response.status_code))
+person3 = {
+  "Name": "Kha'zix",
+  "Phone Number": "+180022212222",	
+}
+
+person4 = {
+  "Name": "Rengar",
+  "Phone Number": "+180022212222",	
+}
+
+person5 = {
+  "Name": "Talon",
+  "Phone Number": "+180022212222",	
+}
+
+person6 = {
+  "Name": "Zed",
+  "Phone Number": "+180022212222",	
+}
+
+participants = [person1, person2, person3, person4, person5, person6]
+
+for assassin in participants:
+	payload = {
+		"type": "Checking",
+		"nickname": assassin['Name'],
+		"rewards": 0,
+		"balance": 5,	
+	}
+
+	# Create a Checking Account
+	response = requests.post( 
+		gm.url, 
+		data=json.dumps(payload),
+		headers={'content-type':'application/json'},
+		)
+
+	if response.status_code == 201:
+		print('account created')
+	else:
+		print('Error Status Code: ' + str(response.status_code))
