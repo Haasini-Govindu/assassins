@@ -47,22 +47,22 @@ person6 = {
 
 participants = [person1, person2, person3, person4, person5, person6]
 
-payload = {
-  "type": "Checking",
-  "nickname": "test url change",
-  "rewards": 3,
-  "balance": 1090,	
-}
+for assassin in participants:
+	payload = {
+		"type": "Checking",
+		"nickname": assassin['Name'],
+		"rewards": 0,
+		"balance": 5,	
+	}
 
+	# Create a Checking Account
+	response = requests.post( 
+		gm.url, 
+		data=json.dumps(payload),
+		headers={'content-type':'application/json'},
+		)
 
-# Create a Checking Account
-response = requests.post( 
-	gm.url, 
-	data=json.dumps(payload),
-	headers={'content-type':'application/json'},
-	)
-
-if response.status_code == 201:
-	print('account created')
-else:
-	print('Error Status Code: ' + str(response.status_code))
+	if response.status_code == 201:
+		print('account created')
+	else:
+		print('Error Status Code: ' + str(response.status_code))
