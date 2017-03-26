@@ -1,12 +1,13 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 from database import db
 import sms
 import web as web
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['FLASK_DB'] or 'sqlite:////tmp/test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
