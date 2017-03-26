@@ -32,11 +32,12 @@ def getCustomerId():
 ```
 
 # Dependencies
-**requests** (HTTP Library for Python)  
-On a command line, type in:
+[**requests** (HTTP Library for Python)](http://docs.python-requests.org/en/master/user/install/)  
+To install, run the following command:
 ```bash
 pip install requests
 ```
+Note that you may need to install pip beforehand if you have not yet already.
 
 # Running flask server
 ```bash
