@@ -44,7 +44,7 @@ class MasterAccount:
   			"payee_id": assassin.get_id(),
   			"amount": self.buyIn,
   			"transaction_date": "2017-03-25",
-  			"description": ("Loot from")
+  			"description": ("Loot from " + assassin.getTarget().getName())
 		}
 		
 		response = requests.post(
