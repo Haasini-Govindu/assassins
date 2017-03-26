@@ -39,8 +39,8 @@ def getCustomerId():
 Same as `nessie_auth.py` but for Twilio authentication info.
 These can be found on the Twilio console page.
 ```python
-account_sid = '<twilio accound SID here>'
-auth_token = '<twilio auth token here>'
+account_sid = '<account SID here>'
+auth_token = '<authentication token here>'
 number = '+11234567890' #outgoing SMS number
 
 def getSid():
@@ -63,7 +63,7 @@ Note that you may need to install pip beforehand if you have not yet already.
 
 # Running flask server
 ```bash
-export FLASK_APP=app.py
+export FLASK_APP=application.py
 export FLASK_DEBUG=1
 flask run
 ```
