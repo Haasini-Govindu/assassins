@@ -19,7 +19,6 @@
     		min-width: 1em;
     		margin-right: 0.5em;
 		}
-
 	</style>
 	
 </head>
@@ -39,12 +38,12 @@
  				<th>Kills</th>
  			</tr>
  			
- 			{% for idx in range(0, 6) %}
+ 			{% for idx in players %}
  			<tr>
  				<td></td>
- 				<td>{{players[idx].name}}</td>
- 				<td>{{players[idx].status}}</td>
- 				<td>{{players[idx].kills}}</td>
+ 				<td>{{idx.name}}</td>
+ 				<td>{{idx.status}}</td>
+ 				<td>{{idx.kills}}</td>
  			</tr>
  			{% endfor %}
  			
