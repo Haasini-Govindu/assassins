@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Assassins</title>
+    <!--<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">-->
+    <!--<link rel='stylesheet' type='text/css' href='css/bootstrap-theme.css'>
+	<link rel='stylesheet' type='text/css' href='css/bootstrap.css'>-->
+	<link rel="stylesheet" type="text/css" href = "{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+
+<body>
+	<div class="container">
+        <div class="header">
+        	<!--
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="#">Home</a>
+                    </li>
+                    <li role="presentation"><a href="#">Sign In</a>
+                    </li>
+                    <li role="presentation"><a href="showSignUp">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+            -->
+            <h3 class="text-muted">Assassins.tech</h3>
+        </div>
+ 
+        <div class="jumbotron">
+            <h1>Welcome to Assassins!</h1>
+            <p class="lead"></p>
+            <form class="form-inline">
+            	<div class="form-group">
+            	<input id="gamePass" type="text" class="input-large form-control" placeholder="Custom Game Password" size=35 onchange="viewLeaderboard(this.value)">
+            	<input id="createGameButton" class="btn btn-success" role="button" disabled="true" value="Create Game" onclick="viewGame()"></input>
+            	<input id="viewGameButton" class="btn btn-primary" role="button" disabled="true" value="View Existing Game" onclick="viewGame()"></input>
+            	<script type="text/javascript">
+            		function viewGame() {
+            			if(!this.disabled) {
+            				window.open("leaderboard", "_self");
+            			} 
+            		}
+            		function viewLeaderboard(text) {
+            			if(text.length > 0) {
+            				document.getElementById("viewGameButton").disabled = false;
+            				document.getElementById("createGameButton").disabled = false;
+            			}
+            			else {
+            				document.getElementById("viewGameButton").disabled = true;
+            				document.getElementById("createGameButton").disabled = true;
+            			}
+            		}
+            	</script>
+            	</div>
+            </form>
+            </p>
+        </div>
+ 
+        <div class="row marketing">
+            <div class="col-lg-6">
+                <h4>Bucket List</h4>
+                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+ 
+                <h4>Bucket List</h4>
+                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+ 
+                <h4>Bucket List</h4>
+                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+            </div>
+ 
+            <div class="col-lg-6">
+                <h4>Bucket List</h4>
+                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+ 
+                <h4>Bucket List</h4>
+                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+ 
+                <h4>Bucket List</h4>
+                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+            </div>
+        </div>
+ 
+        <footer class="footer">
+            <p>&copy; March 25th, 2017. Created at MHacks 9 by Christopher Cooper and Richard Ju.</p>
+        </footer>
+    </div>
+</body>
+
