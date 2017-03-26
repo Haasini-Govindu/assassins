@@ -16,6 +16,10 @@ Eliminated assassins automatically have their initial buy in transferred to thei
 While the rules of the physical game is up to the discretion of the participants, please keep in mind that it is still just a game. 
 We do not encourage nor are we accountable for any injuries or even deaths resulting from participating in this activity. Do not perform a literal assassination on your target.
 
+# APIs Utilized
+[**Capital One's Nessie API**](https://api.reimaginebanking.com)
+[**Twilio API**](https://www.twilio.com/docs/)
+
 # Hidden Files
 **nessie_auth.py**  
 Authentication information stored in a python file.
