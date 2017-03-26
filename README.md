@@ -36,8 +36,8 @@ def getCustomerId():
 ```
 
 **twilio_auth.py**  
-Same as `nessie_auth.py` but for twilio auth info.
-These can be found on the Twilio console page
+Same as `nessie_auth.py` but for Twilio authentication info.
+These can be found on the Twilio console page.
 ```python
 account_sid = '<twilio accound SID here>'
 auth_token = '<twilio auth token here>'
