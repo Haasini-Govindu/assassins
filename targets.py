@@ -44,6 +44,7 @@ class Game:
 			self.players[n].setTarget(self.players[(n + 1) % len(self.players)])
 			print str(self.players[n].getName()) + ' is targeting ' + str(self.players[n].getTarget())
 			outgoing.start(self.players[n])
+		self.started = True
 	
 	def leaderboard(self):
 		ret = ''

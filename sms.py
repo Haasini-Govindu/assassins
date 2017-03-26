@@ -71,7 +71,11 @@ def handleStart(sender, response):
 	if(not(sender in players)):
 		response.message('you\'re not in a game yet!')
 		return response
-	players[sender].start()
+	game = players[sender]
+	if(game.started):
+		response.message('game is already started')
+		return response
+	game.start()
 	response.message('all players have been notified of the game start')
 	return response
 
