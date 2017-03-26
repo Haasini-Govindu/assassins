@@ -1,5 +1,7 @@
+# API auth files
 nessie_auth.py
 twilio_auth.py
+assassins.pem
 
 # compiled files
 __pycache__/
