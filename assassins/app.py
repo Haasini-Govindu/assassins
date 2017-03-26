@@ -23,7 +23,7 @@ def homepage():
 
 @app.route("/leaderboard")
 def leaderboard():
-	return render_template('leaderboard.html', test="Testing from app.py", players=players, n=len(players))
+	return render_template('leaderboard.html', players=players, n=len(players))
 
 if __name__ == "__main__":
 	app.run(debug=True)
