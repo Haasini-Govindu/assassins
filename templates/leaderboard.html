@@ -29,13 +29,14 @@
             <h3 class="text-muted">Assassins.tech</h3>
         </div>
  
- 		<h3>Leaderboard</h3>
+ 		<h3>Leaderboard: {{code}}</h3>
  		<table class="table table-striped">
  			<tr>
  				<th>Rank</th>
  				<th>Name</th>
  				<th>Status</th>
  				<th>Kills</th>
+ 				<th>Balance</th>
  			</tr>
  			
  			{% for idx in players %}
@@ -44,6 +45,7 @@
  				<td>{{idx.name}}</td>
  				<td>{{idx.status}}</td>
  				<td>{{idx.kills}}</td>
+ 				<td>{{idx.balance}}</td>
  			</tr>
  			{% endfor %}
  			

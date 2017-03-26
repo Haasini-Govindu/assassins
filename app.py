@@ -18,6 +18,18 @@ def root():
 def homepage():
 	return web.homepage()
 
-@app.route("/leaderboard")
-def leaderboard():
-	return web.leaderboard()
+@app.route("/leaderboard/<code>")
+def leaderboard(code):
+	return web.leaderboard(code)
+
+@app.route('/create')
+def create_show():
+	return web.create_show(None)
+
+@app.route('/create/<code>')
+def create_show_code(code):
+	return web.create_show(code)
+
+@app.route('/create', methods=['POST'])
+def create_submit():
+	return web.create_submit(request)

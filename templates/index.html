@@ -34,13 +34,18 @@
             <form class="form-inline">
             	<div class="form-group">
             	<input id="gamePass" type="text" class="input-large form-control" placeholder="Custom Game Password" size=35 onchange="viewLeaderboard(this.value)">
-            	<input id="createGameButton" class="btn btn-success" role="button" disabled="true" value="Create Game" onclick="viewGame()"></input>
+            	<input id="createGameButton" class="btn btn-success" role="button" disabled="true" value="Create Game" onclick="createGame()"></input>
             	<input id="viewGameButton" class="btn btn-primary" role="button" disabled="true" value="View Existing Game" onclick="viewGame()"></input>
             	<script type="text/javascript">
+            		function createGame() {
+            			if(!this.disabled) {
+            				window.open("create/" + document.getElementById("gamePass").value, "_self");
+            			}
+            		}
             		function viewGame() {
             			if(!this.disabled) {
-            				window.open("leaderboard", "_self");
-            			} 
+            				window.open("leaderboard/" + document.getElementById("gamePass").value, "_self");
+            			}
             		}
             		function viewLeaderboard(text) {
             			if(text.length > 0) {
