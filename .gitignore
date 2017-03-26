@@ -1,4 +1,5 @@
 nessie_auth.py
+twilio_auth.py
 
 # compiled files
 __pycache__/
