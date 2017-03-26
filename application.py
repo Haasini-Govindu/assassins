@@ -1,36 +1,35 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-import os
 
 from database import db
 import sms
 import web as web
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['FLASK_DB'] or 'sqlite:////tmp/test.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db.init_app(app)
+application = Flask(__name__)
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db.init_app(application)
 
-@app.route('/sms', methods=['POST'])
+@application.route('/sms', methods=['POST'])
 def root():
     return sms.handleSms(request)
 
-@app.route("/")
+@application.route("/")
 def homepage():
 	return web.homepage()
 
-@app.route("/leaderboard/<code>")
+@application.route("/leaderboard/<code>")
 def leaderboard(code):
 	return web.leaderboard(code)
 
-@app.route('/create')
+@application.route('/create')
 def create_show():
 	return web.create_show(None)
 
-@app.route('/create/<code>')
+@application.route('/create/<code>')
 def create_show_code(code):
 	return web.create_show(code)
 
-@app.route('/create', methods=['POST'])
+@application.route('/create', methods=['POST'])
 def create_submit():
 	return web.create_submit(request)
