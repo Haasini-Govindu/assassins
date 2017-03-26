@@ -17,6 +17,25 @@ def getCustomerId():
 	return customerId
 ```
 
+**twilio_auth.py**  
+Same as `nessie_auth.py` but for twilio auth info.
+These can be found on the Twilio console page
+```python
+account_sid = '<twilio accound SID here>'
+auth_token	= '<twilio auth token here>'
+number = '+11234567890' #outgoing SMS number
+
+def getSid():
+	return account_sid
+	
+def getAuthToken():
+	return auth_token
+
+def getNumber():
+	return number
+
+```
+
 # Dependencies
 **requests**
 On a command line, type in:
@@ -26,7 +45,7 @@ pip install requests
 
 # Running flask server
 ```bash
-export FLASK_APP=sms.py
+export FLASK_APP=app.py
 export FLASK_DEBUG=1
 flask run
 ```

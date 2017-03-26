@@ -1,11 +1,7 @@
 from twilio import twiml
-from flask import Flask, request
 
 # import targets
 from targets import Player, Game, generateCode
-
-
-app = Flask(__name__)
 
 # codes to games
 games = {}
@@ -15,8 +11,7 @@ players = {}
 
 awaitingResponse = {}
 
-@app.route("/", methods=['GET', 'POST'])
-def root():
+def handleSms(request):
 	print(request.form['Body'])
 	response = twiml.Response()
 
