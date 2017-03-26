@@ -68,8 +68,6 @@ class MasterAccount:
 			data = response.json()
 			bal = float(data['balance'])
 			return bal
-# 			print data
-# 			return 5
 		else:
 			print('Error Status Code: ' + str(response.status_code))
 				
