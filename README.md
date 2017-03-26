@@ -36,7 +36,7 @@ Same as `nessie_auth.py` but for twilio auth info.
 These can be found on the Twilio console page
 ```python
 account_sid = '<twilio accound SID here>'
-auth_token	= '<twilio auth token here>'
+auth_token = '<twilio auth token here>'
 number = '+11234567890' #outgoing SMS number
 
 def getSid():
@@ -47,7 +47,6 @@ def getAuthToken():
 
 def getNumber():
 	return number
-
 ```
 
 # Dependencies
