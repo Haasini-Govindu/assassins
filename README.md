@@ -17,7 +17,7 @@ While the rules of the physical game is up to the discretion of the participants
 We do not encourage nor are we accountable for any injuries or even deaths resulting from participating in this activity. Do not perform a literal assassination on your target.
 
 # APIs Utilized
-[**Capital One's Nessie API**](https://api.reimaginebanking.com)
+[**Capital One's Nessie API**](api.reimaginebanking.com)  
 [**Twilio API**](https://www.twilio.com/docs/)
 
 # Hidden Files
