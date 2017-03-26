@@ -1,115 +1,121 @@
 from twilio import twiml
-from flask import Flask, request
 
-# import targets
 from targets import Player, Game, generateCode
+from database import db
 
 
-app = Flask(__name__)
-
-# codes to games
-games = {}
-
-# players to games
-players = {}
-
-awaitingResponse = {}
-
-@app.route("/", methods=['GET', 'POST'])
-def root():
+def handleSms(request):
 	print(request.form['Body'])
 	response = twiml.Response()
 
 	# debug
 	if(request.form['Body'] == 'debug'):
-		for key in games.keys():
-			print key
-			games[key].printStatus()
+		for game in Game.query.all():
+			print game.code
+			game.printStatus()
 
-
-	if(request.form['From'] in awaitingResponse):
-		return str(awaitingResponse.pop(request.form['From'])(request, response))
+	sender = Player.query.filter_by(number=request.form['From']).first()
+	if(sender is None):
+		sender = Player(number=request.form['From'])
+		db.session.add(sender)
+	if(not(sender.awaitingResponse is None)):
+		return str(sender.awaitingResponse[0](sender.awaitingResponse[1], sender, request, response))
+	
 	body = request.form['Body'].lower().strip()
 	if(body == 'new game'):
-		return str(handleNew(request.form['From'], response))
+		return str(handleNew(sender, response))
 	if(body == 'start'):
-		return str(handleStart(request.form['From'], response))
+		return str(handleStart(sender, response))
 	if(body.split(' ')[0] == 'join'):
-		return str(handleJoin(request.form['From'], body, response))
+		return str(handleJoin(sender, body, response))
 	if(body.split(' ')[0] == 'kill'):
-		return str(handleKill(request.form['From'], body, response))
+		return str(handleKill(sender, body, response))
 	if(body == 'leaderboard'):
-		return str(handleLeaderboard(request.form['From'], response))
+		return str(handleLeaderboard(sender, response))
+	if(body == 'end game' and sender.game):
+		game = sender.game
+		for p in game.players:
+			p.game = None
+		db.session.delete(game)
+		db.session.commit()
 	return str(handleIdk(response))
 
-def buyIn(request, response):
+def buyIn(_ignore, sender, request, response):
 	try:
 		val = float(request.form['Body'])
 	except ValueError:
-		awaitingResponse[request.form['From']] = buyIn
 		response.message('that\'s not a valid number, try again')
 		return response
+	sender.awaitingResponse = None
 	code = generateCode(5)
-	games[code] = Game(val)
+	game = Game(code=code, buyIn=val, started=False, completed=False)
+	db.session.add(game)
 	response.message('new game with code ' + code)
-	return handleJoin(request.form['From'], 'join ' + code, response)
+	return handleJoin(sender, 'join ' + code, response)
 	
 
-def getName(code):
-	if code in games:
-		def go(request, response):
-			games[code].addPlayer(Player(request.form['Body'], request.form['From']))
-			players[request.form['From']] = games[code]
-			response.message('you joined the game! we\'ll let you know when it starts')
-			return response
-		return go
+def getName(code, sender, request, response):
+	sender.awaitingResponse = None
+	game = Game.query.filter_by(code=code).first()
+	if(not(game is None)):
+		sender.name = request.form['Body']
+		sender.game = game
+		db.session.commit()
+		response.message('you joined the game! we\'ll let you know when it starts')
+		return response
+	else:
+		db.session.commit()
 
 def handleNew(sender, response):
-	if(sender in players):
+	if(sender.game and not(sender.game.completed)):
 		response.message('you\'re already in a game!')
 		return response
-	awaitingResponse[sender] = buyIn
+	sender.awaitingResponse = [buyIn, None]
+	db.session.commit()
 	response.message('how much for the buy-in?')
 	return response
 
 def handleStart(sender, response):
-	if(not(sender in players)):
+	if(not(sender.game)):
 		response.message('you\'re not in a game yet!')
 		return response
-	players[sender].start()
+	game = sender.game
+	if(game.started):
+		response.message('game is already started')
+		return response
+	game.start()
+	db.session.commit()
 	response.message('all players have been notified of the game start')
 	return response
 
 def handleJoin(sender, body, response):
-	if(sender in players):
+	if(sender.game and not(sender.game.completed)):
 		response.message('you\'re already in a game!')
 		return response
 	if(len(body.split(' ')) < 2):
 		response.message('please include your game code')
 		return response
-	if(not(body.split(' ')[1] in games)):
+	game = Game.query.filter_by(code=body.split(' ')[1]).first()
+	if(game is None):
 		response.message('that\'s not a valid game code')
 		return response
-	awaitingResponse[sender] = getName(body.split(' ')[1])
+	sender.awaitingResponse = [getName, game.code]
+	db.session.commit()
 	response.message('what\'s your name?')
 	return response
 	
 def handleKill(sender, text, response):
-	if(not(sender in players)):
+	if(sender.game is None):
 		response.message('you\'re not in a game yet!')
 		return response
-	game = players[sender]
 	args = text.split(' ')
 	if(len(args) < 2):
 		response.message('please include your victim\'s code')
 		return response
-	player = game.findPlayer(sender);
-	if(not(player)):
-		response.message('you\'re not even playing dumbass')
-		return response
-	if(game.assassinationAttempt(player, args[1])):
-		if(player.target):
-			response.message('successfull kill! your next target is ' + player.getTarget())
+	if(sender.game.assassinationAttempt(sender, args[1])):
+		db.session.commit()
+		if(sender.target):
+			response.message('successfull kill! your next target is ' + sender.target)
 		return response
 	response.message('sorry, but that code isn\'t right')
 	return response
@@ -119,8 +125,8 @@ def handleIdk(response):
 	return response
 
 def handleLeaderboard(sender, response):
-	if(not(sender in players)):
+	if(sender.game is None):
 		response.message('you\'re not in a game yet!')
 		return response
-	response.message(players[sender].leaderboard())
+	response.message(sender.game.leaderboard())
 	return response

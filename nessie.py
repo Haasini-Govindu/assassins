@@ -41,10 +41,10 @@ class MasterAccount:
 		
 		payload = {
   			"medium": "balance",
-  			"payee_id": assassin.get_id(),
+  			"payee_id": assassin.bankId,
   			"amount": self.buyIn,
   			"transaction_date": "2017-03-25",
-  			"description": ("Loot from " + assassin.getTarget().getName())
+  			"description": ("Loot from " + assassin.target.name)
 		}
 		
 		response = requests.post(
