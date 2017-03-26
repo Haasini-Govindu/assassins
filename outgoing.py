@@ -10,11 +10,11 @@ def killed(player, money):
 def start(player):
 	body = 'the game begins!'
 	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
-	body = 'your target is ' + player.target.getName()
+	body = 'your target is ' + player.target.name
 	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
 	body = 'your secret code is ' + player.secretCode
 	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
 
 def gameover(player, winner, money):
-	body = winner.getName() + ' has won the game with $' + str(money) + '!'
+	body = winner.name + ' has won the game with $' + str(money) + '!'
 	client.messages.create(body=body, to=player.number, from_=twilio_auth.getNumber())
