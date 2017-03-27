@@ -1,7 +1,16 @@
+<head>
+		<link rel="stylesheet" type="text/css" href = "{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+
+<body>
+<div class="container">
 <form action="/create" method="post">
 	Code:<br>
-	<input type="text" name="code" value="{{code}}"><br>
+	<input type="text" name="code" value="{{code}}" class="input-large form-control"><br>
 	Buy-in:<br>
-	<input type="text" name="buyin"><br><br>
-	<input type="submit" value="Submit">
+	<input type="text" name="buyin" class="input-large form-control" placeholder="Buy In Amount"><br><br>
+	<!--<input type="text" name="rules" class="input-large form-control" placeholder="Rules"><br><br>-->
+	<input type="submit" value="Submit" class="btn btn-success">
 </form>
+</div>
+</body>
